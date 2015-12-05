@@ -1,4 +1,5 @@
 class Api::V1::QuestionsController < ApplicationController
+	before_action :authenticate_api_v1_user!
 	before_action :set_question, only: [:show, :update, :destroy]
 
 # GET /questions

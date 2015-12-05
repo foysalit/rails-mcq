@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      mount_devise_token_auth_for 'User', at: 'auth'
       resources :exams
       get 'exams/:id/questions' => 'exams#questions'
       resources :questions
