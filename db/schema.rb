@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151205214151) do
+ActiveRecord::Schema.define(version: 20151205221400) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4
@@ -19,37 +19,45 @@ ActiveRecord::Schema.define(version: 20151205214151) do
     t.boolean  "correct"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.integer  "user_id",     limit: 4
   end
 
   add_index "answers", ["choice_id"], name: "index_answers_on_choice_id", using: :btree
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
+  add_index "answers", ["user_id"], name: "index_answers_on_user_id", using: :btree
 
   create_table "choices", force: :cascade do |t|
     t.string   "title",       limit: 255
     t.integer  "question_id", limit: 4
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.integer  "user_id",     limit: 4
   end
 
   add_index "choices", ["question_id"], name: "index_choices_on_question_id", using: :btree
+  add_index "choices", ["user_id"], name: "index_choices_on_user_id", using: :btree
 
   create_table "exams", force: :cascade do |t|
     t.string   "title",      limit: 255
     t.boolean  "expired"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.integer  "user_id",    limit: 4
   end
 
   add_index "exams", ["title"], name: "index_exams_on_title", using: :btree
+  add_index "exams", ["user_id"], name: "index_exams_on_user_id", using: :btree
 
   create_table "questions", force: :cascade do |t|
     t.string   "title",      limit: 255
     t.integer  "exam_id",    limit: 4
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.integer  "user_id",    limit: 4
   end
 
   add_index "questions", ["exam_id"], name: "index_questions_on_exam_id", using: :btree
+  add_index "questions", ["user_id"], name: "index_questions_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",               limit: 255,   default: "email", null: false
@@ -82,6 +90,10 @@ ActiveRecord::Schema.define(version: 20151205214151) do
 
   add_foreign_key "answers", "choices"
   add_foreign_key "answers", "questions"
+  add_foreign_key "answers", "users"
   add_foreign_key "choices", "questions"
+  add_foreign_key "choices", "users"
+  add_foreign_key "exams", "users"
   add_foreign_key "questions", "exams"
+  add_foreign_key "questions", "users"
 end

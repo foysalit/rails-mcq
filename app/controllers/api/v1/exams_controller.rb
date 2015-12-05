@@ -1,9 +1,10 @@
 class Api::V1::ExamsController < ApplicationController
+	before_action :authenticate_api_v1_user!
 	before_action :set_exam, only: [:show, :update, :destroy]
 
 # GET /exams
 	def index
-		@exams = Exam.all
+		@exams = Exam.where(user_id: current_user.id).all
 
 		render json: @exams
 	end
@@ -48,6 +49,9 @@ class Api::V1::ExamsController < ApplicationController
 	# Use callbacks to share common setup or constraints between actions.
 		def set_exam
 			@exam = Exam.find(params[:id])
+			if @exam.user_id != current_user.id
+				Devise::FailureApp
+			end
 		end
 
 	# Only allow a trusted parameter "white list" through.
