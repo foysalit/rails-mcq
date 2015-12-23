@@ -4,7 +4,8 @@ class Api::V1::ExamsController < ApplicationController
 
 # GET /exams
 	def index
-		@exams = Exam.where(user_id: current_user.id).all
+		@exams = Exam.where(user_id: current_api_v1_user.id).all
+		# @exams = Exam.all
 
 		render json: @exams
 	end
@@ -49,7 +50,7 @@ class Api::V1::ExamsController < ApplicationController
 	# Use callbacks to share common setup or constraints between actions.
 		def set_exam
 			@exam = Exam.find(params[:id])
-			if @exam.user_id != current_user.id
+			if @exam.user_id != current_api_v1_user.id
 				Devise::FailureApp
 			end
 		end

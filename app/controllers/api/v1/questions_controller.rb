@@ -11,7 +11,9 @@ class Api::V1::QuestionsController < ApplicationController
 
 # GET /questions/1
 	def show
-		render json: @question
+		data = {:question => @question}
+		data.choices = Choice.where(question_id: params[:id]).all
+		render json: data
 	end
 
 # GET /questions/1/choices

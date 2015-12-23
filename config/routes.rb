@@ -5,9 +5,10 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 
+  mount_devise_token_auth_for 'User', at: 'api/v1/auth'
+
   namespace :api do
     namespace :v1 do
-      mount_devise_token_auth_for 'User', at: 'auth'
       resources :exams
       get 'exams/:id/questions' => 'exams#questions'
       resources :questions
