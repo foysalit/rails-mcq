@@ -1,10 +1,10 @@
 class Api::V1::ExamsController < ApplicationController
-	before_action :authenticate_api_v1_user!
+	before_action :authenticate_user!
 	before_action :set_exam, only: [:show, :update, :destroy]
 
 # GET /exams
 	def index
-		@exams = Exam.where(user_id: current_api_v1_user.id).all
+		@exams = Exam.where(user_id: current_user.id).all
 		# @exams = Exam.all
 
 		render json: @exams
@@ -24,6 +24,7 @@ class Api::V1::ExamsController < ApplicationController
 # POST /exams
 	def create
 		@exam = Exam.new(exam_params)
+		@exam.user = current_user
 
 		if @exam.save
 			render json: @exam, status: :created
@@ -50,7 +51,7 @@ class Api::V1::ExamsController < ApplicationController
 	# Use callbacks to share common setup or constraints between actions.
 		def set_exam
 			@exam = Exam.find(params[:id])
-			if @exam.user_id != current_api_v1_user.id
+			if @exam.user_id != current_user.id
 				Devise::FailureApp
 			end
 		end

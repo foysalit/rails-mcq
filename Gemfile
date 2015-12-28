@@ -12,7 +12,7 @@ gem 'mysql2'
 
 gem 'rack-cors', :require => 'rack/cors'
 gem 'omniauth'
-gem 'devise_token_auth'
+gem 'devise_token_auth', :git => 'https://github.com/lynndylanhurley/devise_token_auth.git', :branch => 'master'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
